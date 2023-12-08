@@ -1,6 +1,5 @@
 use std::fs::read_to_string;
 
-
 fn main() {
     let file_contents = read_to_string("input.txt").unwrap();
     let mut acc = 0;

@@ -1,6 +1,5 @@
 use std::fs::read_to_string;
 
-
 fn main() {
     let file_contents = read_to_string("input.txt").unwrap();
     let mut acc = 0;
@@ -26,7 +25,14 @@ fn process_line(line: &str) -> i32 {
     let mut i = 0;
     let mut nline = line.to_string();
     while i < nline.len() {
-        if nline.get(i..i+1).unwrap().chars().next().unwrap().is_digit(10) {
+        if nline
+            .get(i..i + 1)
+            .unwrap()
+            .chars()
+            .next()
+            .unwrap()
+            .is_digit(10)
+        {
             break;
         }
         if let Some(result) = replace_number(&nline, &nline[i..]) {
@@ -38,10 +44,17 @@ fn process_line(line: &str) -> i32 {
 
     let mut i = 0;
     while i < nline.len() {
-        if nline.get((nline.len()-i-1)..(nline.len()-i)).unwrap().chars().next().unwrap().is_digit(10) {
+        if nline
+            .get((nline.len() - i - 1)..(nline.len() - i))
+            .unwrap()
+            .chars()
+            .next()
+            .unwrap()
+            .is_digit(10)
+        {
             break;
         }
-        if let Some(result) = replace_number(&nline, &nline[nline.len()-1-i..]) {
+        if let Some(result) = replace_number(&nline, &nline[nline.len() - 1 - i..]) {
             nline = result;
             break;
         }
@@ -49,7 +62,7 @@ fn process_line(line: &str) -> i32 {
     }
 
     println!("Transformed string: {nline}");
-    
+
     let mut d_arr = [None, None];
     for c in nline.chars() {
         if c.is_digit(10) {
@@ -68,32 +81,23 @@ fn replace_number(input: &str, substr: &str) -> Option<String> {
     println!("{input}");
     if substr.starts_with("one") {
         Some(input.replace("one", "1"))
-    }
-    else if substr.starts_with("two") {
+    } else if substr.starts_with("two") {
         Some(input.replace("two", "2"))
-    }
-    else if substr.starts_with("three") {
+    } else if substr.starts_with("three") {
         Some(input.replace("three", "3"))
-    }
-    else if substr.starts_with("four") {
+    } else if substr.starts_with("four") {
         Some(input.replace("four", "4"))
-    }
-    else if substr.starts_with("five") {
+    } else if substr.starts_with("five") {
         Some(input.replace("five", "5"))
-    }
-    else if substr.starts_with("six") {
+    } else if substr.starts_with("six") {
         Some(input.replace("six", "6"))
-    }
-    else if substr.starts_with("seven") {
+    } else if substr.starts_with("seven") {
         Some(input.replace("seven", "7"))
-    }
-    else if substr.starts_with("eight") {
+    } else if substr.starts_with("eight") {
         Some(input.replace("eight", "8"))
-    }
-    else if substr.starts_with("nine") {
+    } else if substr.starts_with("nine") {
         Some(input.replace("nine", "9"))
-    }
-    else {
+    } else {
         None
     }
 }

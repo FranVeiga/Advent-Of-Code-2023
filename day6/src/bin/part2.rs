@@ -5,12 +5,35 @@ fn main() {
 }
 
 fn part2(input: &str) -> i64 {
-    let time: &str = input.lines().next().unwrap().split(":").skip(1).next().unwrap();
-    let time = time.split(" ").filter(|s| !s.is_empty()).collect::<Vec<&str>>().join("");
+    let time: &str = input
+        .lines()
+        .next()
+        .unwrap()
+        .split(":")
+        .skip(1)
+        .next()
+        .unwrap();
+    let time = time
+        .split(" ")
+        .filter(|s| !s.is_empty())
+        .collect::<Vec<&str>>()
+        .join("");
     let time: i64 = time.parse().unwrap();
 
-    let distance: &str = input.lines().skip(1).next().unwrap().split(":").skip(1).next().unwrap();
-    let distance = distance.split(" ").filter(|s| !s.is_empty()).collect::<Vec<&str>>().join("");
+    let distance: &str = input
+        .lines()
+        .skip(1)
+        .next()
+        .unwrap()
+        .split(":")
+        .skip(1)
+        .next()
+        .unwrap();
+    let distance = distance
+        .split(" ")
+        .filter(|s| !s.is_empty())
+        .collect::<Vec<&str>>()
+        .join("");
     let distance: i64 = distance.parse().unwrap();
 
     let mut c = 0;

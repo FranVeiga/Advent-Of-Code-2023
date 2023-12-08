@@ -12,9 +12,9 @@ fn part1(input: &str) -> i32 {
         for j in 0..chars.len() {
             if chars[j] == '*' {
                 let mut adjacent_numbers = Vec::new();
-                let prev_line = lines.get(i-1).unwrap_or(&"");
-                let next_line = lines.get(i+1).unwrap_or(&"");
-                for c in (j-1)..=(j+1) {
+                let prev_line = lines.get(i - 1).unwrap_or(&"");
+                let next_line = lines.get(i + 1).unwrap_or(&"");
+                for c in (j - 1)..=(j + 1) {
                     if prev_line.chars().collect::<Vec<char>>()[c].is_numeric() {
                         let n = get_number(prev_line, c);
                         if !adjacent_numbers.contains(&n) {
@@ -27,23 +27,23 @@ fn part1(input: &str) -> i32 {
                             adjacent_numbers.push(n);
                         }
                     }
-                    if let Some(char) = chars.get(j+1) {
+                    if let Some(char) = chars.get(j + 1) {
                         if char.is_numeric() {
-                            let n = get_number(lines[i], j+1);
+                            let n = get_number(lines[i], j + 1);
                             if !adjacent_numbers.contains(&n) {
                                 adjacent_numbers.push(n);
                             }
                         }
                     }
-                    if let Some(char) = chars.get(j-1) {
+                    if let Some(char) = chars.get(j - 1) {
                         if char.is_numeric() {
-                            let n = get_number(lines[i], j-1);
+                            let n = get_number(lines[i], j - 1);
                             if !adjacent_numbers.contains(&n) {
                                 adjacent_numbers.push(n);
                             }
                         }
                     }
-                } 
+                }
                 acc += adjacent_numbers.iter().sum::<i32>();
             }
         }
@@ -52,7 +52,6 @@ fn part1(input: &str) -> i32 {
 }
 
 fn get_number(line: &str, idx: usize) -> i32 {
-
     let chars: Vec<char> = line.chars().collect();
     let mut start_idx = 0;
     let mut end_idx = 0;

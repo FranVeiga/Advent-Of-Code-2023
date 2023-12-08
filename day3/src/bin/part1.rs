@@ -1,5 +1,3 @@
-
-
 fn main() {
     let contents = std::fs::read_to_string("input.txt").unwrap();
     let result = part1(&contents);
@@ -24,24 +22,37 @@ fn part1(input: &str) -> i32 {
                 }
                 j += 1;
                 let search_start_idx = start_idx.checked_sub(1).unwrap_or(0);
-                let above = lines.get(i.checked_sub(1).unwrap_or(100000000000)).unwrap_or(&"").get(search_start_idx..=((line_length-1).min(end_idx+1))).unwrap_or("");
-                let below = lines.get(i+1).unwrap_or(&"").get(search_start_idx..=((line_length-1).min(end_idx+1))).unwrap_or("");
+                let above = lines
+                    .get(i.checked_sub(1).unwrap_or(100000000000))
+                    .unwrap_or(&"")
+                    .get(search_start_idx..=((line_length - 1).min(end_idx + 1)))
+                    .unwrap_or("");
+                let below = lines
+                    .get(i + 1)
+                    .unwrap_or(&"")
+                    .get(search_start_idx..=((line_length - 1).min(end_idx + 1)))
+                    .unwrap_or("");
 
                 for above_char in above.chars() {
                     if !(above_char.is_numeric() || above_char == '.') {
                         valid = true;
                         break;
-                    } 
+                    }
                 }
                 for below_char in below.chars() {
                     if !(below_char.is_numeric() || below_char == '.') {
                         valid = true;
                         break;
-                    } 
+                    }
                 }
 
                 // println!("{} -> {}", start_idx.checked_sub(1).unwrap_or(0), start_idx);
-                if &lines[i].get(start_idx.checked_sub(1).unwrap_or(1000000)..start_idx).unwrap_or(".") != &"." || &lines[i].get(end_idx+1..end_idx+2).unwrap_or(".") != &"." {
+                if &lines[i]
+                    .get(start_idx.checked_sub(1).unwrap_or(1000000)..start_idx)
+                    .unwrap_or(".")
+                    != &"."
+                    || &lines[i].get(end_idx + 1..end_idx + 2).unwrap_or(".") != &"."
+                {
                     valid = true;
                 }
             }

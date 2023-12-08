@@ -15,9 +15,9 @@ fn part2(input: &str) -> i64 {
     let mut loc = 0;
     loop {
         let seed = location_to_seed(loc, &maps);
-        for i in 0..seeds.len()/2 {
-            if seed >= seeds[i*2] && seed < seeds[i*2]+seeds[i*2+1] {
-                return loc
+        for i in 0..seeds.len() / 2 {
+            if seed >= seeds[i * 2] && seed < seeds[i * 2] + seeds[i * 2 + 1] {
+                return loc;
             }
         }
         loc += 1;
@@ -32,7 +32,7 @@ fn part2(input: &str) -> i64 {
     //     }
     // }
     // low_seed
-    
+
     // let locations: Vec<_> = seeds.iter().map(|seed| seed_to_location(*seed, &maps)).collect();
     // *locations.iter().min().unwrap()
 }
@@ -53,7 +53,7 @@ fn populate_maps(input: &str) -> Vec<Vec<(i64, i64, i64)>> {
             if !curr_maps.is_empty() {
                 sections.push(curr_maps.clone());
             }
-            curr_maps.clear(); 
+            curr_maps.clear();
             skip = true;
             continue;
         }
@@ -61,14 +61,17 @@ fn populate_maps(input: &str) -> Vec<Vec<(i64, i64, i64)>> {
             skip = false;
             continue;
         }
-        let nums: Vec<_> = line.split(" ").filter(|line| !line.is_empty()).map(|n| n.parse::<i64>().unwrap()).collect();
+        let nums: Vec<_> = line
+            .split(" ")
+            .filter(|line| !line.is_empty())
+            .map(|n| n.parse::<i64>().unwrap())
+            .collect();
         curr_maps.push((nums[0], nums[1], nums[2]))
     }
     if !curr_maps.is_empty() {
         sections.push(curr_maps.clone());
     }
     sections
-
 }
 
 fn seed_to_location(seed: i64, maps: &Vec<Vec<(i64, i64, i64)>>) -> i64 {
@@ -107,13 +110,12 @@ fn location_to_seed(location: i64, maps: &Vec<Vec<(i64, i64, i64)>>) -> i64 {
 
 #[cfg(test)]
 mod tests {
-    use crate::{seed_to_location, populate_maps, populate_seeds, location_to_seed};
+    use crate::{location_to_seed, populate_maps, populate_seeds, seed_to_location};
 
     use super::part2;
 
     #[test]
     fn sample() {
-
         let input = "seeds: 79 14 55 13
 
 seed-to-soil map:

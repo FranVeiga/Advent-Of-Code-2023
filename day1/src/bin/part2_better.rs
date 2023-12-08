@@ -1,6 +1,5 @@
 use std::fs::read_to_string;
 
-
 fn main() {
     let file_contents = read_to_string("input.txt").unwrap();
     let mut acc = 0;
@@ -26,7 +25,14 @@ fn process_line(line: &str) -> i32 {
     let mut i = 0;
     let mut nline = line.to_string();
     while i < nline.len() {
-        if nline.get(i..i+1).unwrap().chars().next().unwrap().is_digit(10) {
+        if nline
+            .get(i..i + 1)
+            .unwrap()
+            .chars()
+            .next()
+            .unwrap()
+            .is_digit(10)
+        {
             break;
         }
         if let Some(result) = replace_number(&nline, &nline[i..]) {
@@ -38,10 +44,17 @@ fn process_line(line: &str) -> i32 {
 
     let mut i = 0;
     while i < nline.len() {
-        if nline.get((nline.len()-i-1)..(nline.len()-i)).unwrap().chars().next().unwrap().is_digit(10) {
+        if nline
+            .get((nline.len() - i - 1)..(nline.len() - i))
+            .unwrap()
+            .chars()
+            .next()
+            .unwrap()
+            .is_digit(10)
+        {
             break;
         }
-        if let Some(result) = replace_number(&nline, &nline[nline.len()-1-i..]) {
+        if let Some(result) = replace_number(&nline, &nline[nline.len() - 1 - i..]) {
             nline = result;
             break;
         }
@@ -49,7 +62,7 @@ fn process_line(line: &str) -> i32 {
     }
 
     println!("Transformed string: {nline}");
-    
+
     let mut d_arr = [None, None];
     for c in nline.chars() {
         if c.is_digit(10) {
@@ -65,11 +78,21 @@ fn process_line(line: &str) -> i32 {
 }
 
 fn replace_number(input: &str, substr: &str) -> Option<String> {
-    let numbers = [("one", "1"), ("two", "2"), ("three", "3"), ("four", "4"), ("five", "5"), ("six", "6"), ("seven", "7"), ("eight", "8"), ("nine", "9")];
+    let numbers = [
+        ("one", "1"),
+        ("two", "2"),
+        ("three", "3"),
+        ("four", "4"),
+        ("five", "5"),
+        ("six", "6"),
+        ("seven", "7"),
+        ("eight", "8"),
+        ("nine", "9"),
+    ];
     for number in numbers {
         if substr.starts_with(number.0) {
-            return Some(input.replace(number.0, number.1))
-        } 
+            return Some(input.replace(number.0, number.1));
+        }
     }
     None
 }

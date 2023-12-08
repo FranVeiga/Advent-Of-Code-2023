@@ -5,7 +5,6 @@ struct Card {
 }
 
 impl Card {
-
     fn new(card: &str) -> Card {
         let parts: Vec<_> = card.split(":").collect();
         let id = parts[0].split(" ").last().unwrap().parse().unwrap();
@@ -13,20 +12,15 @@ impl Card {
         let winners: Vec<i32> = numbers[0]
             .split(" ")
             .filter(|n| !n.is_empty())
-            .map(|n| n.parse().unwrap()).
-            collect();
+            .map(|n| n.parse().unwrap())
+            .collect();
         let nums: Vec<i32> = numbers[1]
             .split(" ")
             .filter(|n| !n.is_empty())
-            .map(|n| n.parse().unwrap()).
-            collect();
+            .map(|n| n.parse().unwrap())
+            .collect();
 
-
-        Card {
-            id,
-            winners,
-            nums,
-        }
+        Card { id, winners, nums }
     }
 
     fn points(&self) -> i32 {
@@ -37,14 +31,12 @@ impl Card {
             }
         }
         if c != 0 {
-            2_i32.pow(c-1)
+            2_i32.pow(c - 1)
         } else {
             0
         }
     }
 }
-
-
 
 fn main() {
     let contents = std::fs::read_to_string("input.txt").unwrap();
@@ -56,7 +48,6 @@ fn part1(input: &str) -> i32 {
     let cards = input.lines().map(|line| Card::new(line));
     cards.map(|card| card.points()).sum()
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -72,7 +63,5 @@ Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
 Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
         assert_eq!(part1(input), 13)
-
     }
-
 }

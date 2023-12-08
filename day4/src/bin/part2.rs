@@ -13,20 +13,15 @@ impl Card {
         let winners: Vec<i32> = numbers[0]
             .split(" ")
             .filter(|n| !n.is_empty())
-            .map(|n| n.parse().unwrap()).
-            collect();
+            .map(|n| n.parse().unwrap())
+            .collect();
         let nums: Vec<i32> = numbers[1]
             .split(" ")
             .filter(|n| !n.is_empty())
-            .map(|n| n.parse().unwrap()).
-            collect();
+            .map(|n| n.parse().unwrap())
+            .collect();
 
-
-        Card {
-            id,
-            winners,
-            nums,
-        }
+        Card { id, winners, nums }
     }
 
     fn matching(&self) -> u32 {
@@ -60,18 +55,16 @@ fn part2(input: &str) -> usize {
     let mut cards = original_cards.to_vec();
 
     let mut i = 0;
-    while let Some(card) = cards.get(i)  {
+    while let Some(card) = cards.get(i) {
         for card_copy in card.get_copies(&original_cards) {
             cards.push(card_copy);
         }
 
-        i+=1;
+        i += 1;
     }
 
     cards.len()
-     
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -87,7 +80,5 @@ Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
 Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
         assert_eq!(part2(input), 13)
-
     }
-
 }

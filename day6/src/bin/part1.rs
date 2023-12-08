@@ -5,11 +5,34 @@ fn main() {
 }
 
 fn part1(input: &str) -> i32 {
-    let times: &str = input.lines().next().unwrap().split(":").skip(1).next().unwrap();
-    let times: Vec<_> = times.split(" ").filter(|s| !s.is_empty()).map(|n| n.parse::<i32>().unwrap()).collect();
+    let times: &str = input
+        .lines()
+        .next()
+        .unwrap()
+        .split(":")
+        .skip(1)
+        .next()
+        .unwrap();
+    let times: Vec<_> = times
+        .split(" ")
+        .filter(|s| !s.is_empty())
+        .map(|n| n.parse::<i32>().unwrap())
+        .collect();
 
-    let distances: &str = input.lines().skip(1).next().unwrap().split(":").skip(1).next().unwrap();
-    let distances: Vec<i32> = distances.split(" ").filter(|s| !s.is_empty()).map(|n| n.parse::<i32>().unwrap()).collect();
+    let distances: &str = input
+        .lines()
+        .skip(1)
+        .next()
+        .unwrap()
+        .split(":")
+        .skip(1)
+        .next()
+        .unwrap();
+    let distances: Vec<i32> = distances
+        .split(" ")
+        .filter(|s| !s.is_empty())
+        .map(|n| n.parse::<i32>().unwrap())
+        .collect();
 
     assert!(times.len() == distances.len());
     let n_races = times.len();
