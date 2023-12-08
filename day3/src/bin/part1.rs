@@ -1,3 +1,5 @@
+
+
 fn main() {
     let contents = std::fs::read_to_string("input.txt").unwrap();
     let result = part1(&contents);
@@ -5,76 +7,55 @@ fn main() {
 }
 
 fn part1(input: &str) -> i32 {
-    let lines: Vec<_> = input.lines().collect();
     let mut acc = 0;
+    let lines: Vec<&str> = input.lines().collect();
+    let line_length = lines[0].len();
     for i in 0..lines.len() {
-        let chars: Vec<char> = lines[i].chars().collect();
-        for j in 0..chars.len() {
-            if chars[j] == '*' {
-                let mut adjacent_numbers = Vec::new();
-                let prev_line = lines.get(i-1).unwrap_or(&"");
-                let next_line = lines.get(i+1).unwrap_or(&"");
-                for c in (j-1)..=(j+1) {
-                    if prev_line.chars().collect::<Vec<char>>()[c].is_numeric() {
-                        let n = get_number(prev_line, c);
-                        if !adjacent_numbers.contains(&n) {
-                            adjacent_numbers.push(n);
-                        }
-                    }
-                    if next_line.chars().collect::<Vec<char>>()[c].is_numeric() {
-                        let n = get_number(next_line, c);
-                        if !adjacent_numbers.contains(&n) {
-                            adjacent_numbers.push(n);
-                        }
-                    }
-                    if let Some(char) = chars.get(j+1) {
-                        if char.is_numeric() {
-                            let n = get_number(lines[i], j+1);
-                            if !adjacent_numbers.contains(&n) {
-                                adjacent_numbers.push(n);
-                            }
-                        }
-                    }
-                    if let Some(char) = chars.get(j-1) {
-                        if char.is_numeric() {
-                            let n = get_number(lines[i], j-1);
-                            if !adjacent_numbers.contains(&n) {
-                                adjacent_numbers.push(n);
-                            }
-                        }
-                    }
-                } 
-                acc += adjacent_numbers.iter().sum::<i32>();
+        let mut j = 0;
+        let mut chars = lines[i].chars();
+        while let Some(char) = chars.next() {
+            let mut valid = false;
+            let start_idx: usize = j;
+            let mut end_idx = j;
+            if char.is_numeric() {
+                while chars.next().unwrap_or('.').is_numeric() {
+                    j += 1;
+                    end_idx = j;
+                }
+                j += 1;
+                let search_start_idx = start_idx.checked_sub(1).unwrap_or(0);
+                let above = lines.get(i.checked_sub(1).unwrap_or(100000000000)).unwrap_or(&"").get(search_start_idx..=((line_length-1).min(end_idx+1))).unwrap_or("");
+                let below = lines.get(i+1).unwrap_or(&"").get(search_start_idx..=((line_length-1).min(end_idx+1))).unwrap_or("");
+
+                for above_char in above.chars() {
+                    if !(above_char.is_numeric() || above_char == '.') {
+                        valid = true;
+                        break;
+                    } 
+                }
+                for below_char in below.chars() {
+                    if !(below_char.is_numeric() || below_char == '.') {
+                        valid = true;
+                        break;
+                    } 
+                }
+
+                // println!("{} -> {}", start_idx.checked_sub(1).unwrap_or(0), start_idx);
+                if &lines[i].get(start_idx.checked_sub(1).unwrap_or(1000000)..start_idx).unwrap_or(".") != &"." || &lines[i].get(end_idx+1..end_idx+2).unwrap_or(".") != &"." {
+                    valid = true;
+                }
             }
+
+            if valid {
+                let num_str = &lines[i][start_idx..=end_idx];
+                let num = num_str.parse::<i32>().unwrap();
+                acc += num;
+            }
+
+            j += 1;
         }
     }
     acc
-}
-
-fn get_number(line: &str, idx: usize) -> i32 {
-
-    let chars: Vec<char> = line.chars().collect();
-    let mut start_idx = 0;
-    let mut end_idx = 0;
-    let mut parsing = false;
-
-    for i in 0..chars.len() {
-        if chars[i].is_numeric() && !parsing {
-            start_idx = i;
-            end_idx = i;
-            parsing = true;
-        } else if chars[i].is_numeric() && parsing {
-            end_idx = i;
-        } else if !chars[i].is_numeric() && parsing {
-            parsing = false;
-        }
-
-        if !parsing && idx >= start_idx && idx <= end_idx {
-            break;
-        }
-    }
-
-    line[start_idx..=end_idx].parse().unwrap()
 }
 
 #[cfg(test)]
